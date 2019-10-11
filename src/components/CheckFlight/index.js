@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'semantic-ui-react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { interval, fromPromise } from 'rxjs'
+import { mockHTTPRequest, observe, unsubscribe } from '../ObservableTester'
+import '../ObservableTester/subject'
 
 const DATE_FORMAT = 'DD/MM/YYYY'
 
@@ -57,6 +59,10 @@ const CheckFlight = () => {
   const [checkFlight, setCheckFlight] = useState({})
   const [lastCF, setLastCf] = useState({})
   const [startDate, setStartDate] = useState(dayjs().add(2, 'month'))
+  useEffect(() => {
+    observe()
+    setTimeout(() => unsubscribe(), 10000)
+  }, [])
   const handleClick = async () => {
     try {
       let response = await getFlight()
